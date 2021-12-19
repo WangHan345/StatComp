@@ -1,0 +1,341 @@
+---
+title: "Introduction to functions"
+author: "Han Wang"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(knitr)
+```
+
+## Overview
+
+__StatComp21084__ is a simple R package developed by Han Wang (21084) for the 'Statistical Computing' course. Two functions are considered, namely, _giccdmm_ (perform variable selection of compositional data by lasso or a modified algorithm) and _subgroup_l0_ (perform subgroup analysis with an approximate method of L0 penalty).
+
+## Introduction to _giccdmm_
+
+There is an $L_1$ regularization method for the linear log-contrast model that respects the unique features of compositional data. Formulate the proposed procedure as a constrained convex optimization problem and introduce a coordinate descent method of multipliers for efficient computation.
+
+Consider a model as follows:
+\begin{equation*}
+y = Z\beta^* + \epsilon, \sum_{j=1}^p \beta_j^*=0,
+\end{equation*}
+where $Z = (log x_{ij})$, $\beta^*_p = -\sum_{j=1}^{p-1}\beta_j^*$,  $\beta^*=(\beta_1^*,...,\beta^*_{p})^T$ is the p-vector of regression coefficients to be estimated and $y$ is the response variables, $\epsilon$ is an n-vector of independent noise distributed as $N(0,\sigma^2)$.
+
+_giccdmm_ developed two methods to estimate the regression coefficients $\beta$. The first is the traditional lasso, which selects the model without zero-sum constraint. The lasso problem is 
+\begin{equation*}
+\hat{\beta}=\underset{\beta}{\arg \min }\left(\frac{1}{2 n}\|y-Z \beta\|_{2}^{2}+\lambda\|\beta\|_{1}\right)
+\end{equation*}
+and the problem can be solved by the traditional method. However, the second method select the model under zero-sum constraint and the model can be transformed to the augmented Lagrangian
+\begin{equation*}
+L_{\mu}(\beta, \gamma)=\frac{1}{2 n}\|y-Z \beta\|_{2}^{2}+\lambda\|\beta\|_{1}+\gamma \sum_{j=1}^{p} \beta_{j}+\frac{\mu}{2}\left(\sum_{j=1}^{p} \beta_{j}\right)^{2},
+\end{equation*}
+where $\gamma$ is the Lagrange multiplier and $\mu>0$ is a penalty parameter. Define the scaled Lagrange multiplier $\alpha=\gamma/\mu$, we can develop an optimization algorithm as follows:
+
+  Step 1. Initialize $\beta^{0}$ with 0 or a warm start, $\alpha^{0}=0, \mu>0$ and $k=0$.
+     
+  Step 2. For $j=1, \ldots, p, 1, \ldots, p, \ldots$, update $\beta_{j}^{k+1}$ by $\beta_{j}^{k+1} \leftarrow \frac{1}{v_{j}+\mu} S_{\lambda}\left\{\frac{1}{n} z_{j}^{\mathrm{T}}\left(y-\sum_{i \neq j} \beta_{i}^{k+1} z_{i}\right)-\mu\left(\sum_{i \neq j} \beta_{i}^{k+1}+\alpha^{k}\right)\right\}$ until convergence, where $v_{j}=\left\|z_{j}\right\|_{2}^{2} / n$ and $S_{\lambda}(t)=\operatorname{sgn}(t)(|t|-\lambda)_{+}$is the soft thresholding operator.
+     
+  Step 3. Update $\alpha^{k+1}$ by $\alpha^{k+1} \leftarrow \alpha^{k}+\sum_{j=1}^{p} \beta_{j}^{k+1}$.
+     
+  Step 4. Update $k \leftarrow k+1$, and repeat Steps 2 and 3 until convergence. Output $\hat{\beta}=\beta^{k+1}$.
+  
+And we select the tunning parameter by GIC:
+
+$$
+\operatorname{GIC}(\lambda)=\log \hat{\sigma}_{\lambda}^{2}+\left(s_{\lambda}-1\right) \frac{\log \log n}{n} \log (p \vee n),
+$$
+where $\hat{\sigma}_{\lambda}^{2}=\left\|y-Z \hat{\beta}_{\lambda}\right\|_{2}^{2} / n, \hat{\beta}_{\lambda}$ is the regularized estimator, $p \vee n=\max (p, n)$, and $s_{\lambda}$ is the number of nonzero coefficients in $\hat{\beta}_{\lambda}$. Because of the zero-sum constraint, the effective number of free parameters is $s_{\lambda}-1$ for $s_{\lambda} \geqslant 2$.
+
+
+The source R code for _giccdmm_ is as follows:
+
+```{r}
+giccdmm <- function(y, z, lambda, constr=TRUE,maxit=c(20, 50)) {
+  n<-length(y)
+  p<-ncol(z)
+  l<-length(lambda)
+  gic<-rep(0,l)
+  beta.total<-matrix(0,ncol=p,nrow=l)
+  for(i in 1:l){
+    
+    if(constr){
+      mu<-1
+      beta.old<-rep(1,p)
+      beta<-rep(0,p)
+      beta0<-rep(1,p)
+      alpha<-0
+      lam<-lambda[i]
+      k<-0
+      while (k<maxit & sum(abs(beta-beta0))>10e-8) {
+        beta0<-beta
+        while (sum(abs(beta-beta.old))>10e-8) {
+          beta.old<-beta
+          for (j in 1:p) {
+            t<-t(z[,j])%*%(y-z[,-j]%*%beta[-j])/n-mu*(sum(beta[-j])+alpha)
+            beta[j]<-sign(t)*max(c(abs(t)-lam,0))/(sum(z[,j]^2)/n+mu)
+          }
+        }
+        alpha<-alpha+sum(beta)
+        k<-k+1
+      }
+      beta.total[i,]<-beta
+      gic[i]<-log(sum((y-z%*%beta)^2))+(length(which(beta!=0))-1)*log(log(n))*log(max(p,n))/n
+      
+    }
+    
+    else{
+      mu<-0
+      beta.old<-rep(1,p)
+      beta<-rep(0,p)
+      beta0<-rep(1,p)
+      alpha<-0
+      lam<-lambda[i]
+      k<-0
+      while (k<maxit & sum(abs(beta-beta0))>10e-8) {
+        beta0<-beta
+        while (sum(abs(beta-beta.old))>10e-8) {
+          beta.old<-beta
+          for (j in 1:p) {
+            t<-t(z[,j])%*%(y-z[,-j]%*%beta[-j])/n-mu*(sum(beta[-j])+alpha)
+            beta[j]<-sign(t)*max(c(abs(t)-lam,0))/(sum(z[,j]^2)/n+mu)
+          }
+        }
+        alpha<-alpha+sum(beta)
+        k<-k+1
+        
+      }
+      
+      beta.total[i,]<-beta
+      gic[i]<-log(sum((y-z%*%beta)^2))+(length(which(beta!=0))-1)*log(log(n))*log(max(p,n))/n
+      
+    }
+    
+  }
+  s<-which.min(gic)
+  
+  return(list(beta=beta.total,gic=gic,lam=lambda))
+}
+```
+
+To test the effect of the function, we first generate a compositional data:
+
+```{r}
+library(mvtnorm)
+sim.data <- function(n=50, p=30, rho=0.2, seed=123) {
+	set.seed(seed)
+	bet <- c(1, -0.8, 0.6, 0, 0, -1.5, -0.5, 1.2, rep(0, p - 8))
+	alp <- c(rep(p/2, 5), rep(1, p - 5))
+	sig <- matrix(1, p, p)
+	sig <- rho^abs(row(sig) - col(sig))
+  x <- switch("ln", ln={x <- exp(rmvnorm(n, log(alp), sig)); x/rowSums(x)}, dir=rdirichlet(n, alp))
+	z <- log(x)
+	y <- rnorm(n, z %*% bet, 0.5)
+	data <- list(y=y, z=z, bet=bet)
+	
+	return(data)
+}
+data<-sim.data()
+```
+
+Then we use the two method to select a appropriate model for the data generated above:
+
+```{r}
+lambda<-seq(0.05,0.15,0.02)
+bet <- c(1, -0.8, 0.6, 0, 0, -1.5, -0.5, 1.2, rep(0, 30 - 8))
+result1<-giccdmm(data$y,data$z,lambda,constr = T,maxit = 40)
+result2<-giccdmm(data$y,data$z,lambda,constr = F,maxit = 40)
+beta1<-result1$beta[which.min(result1$gic),]
+beta2<-result2$beta[which.min(result2$gic),]
+PE1<-sum((data$y-data$z%*%beta1)^2)/50
+PE2<-sum((data$y-data$z%*%beta2)^2)/50
+loss1<-sum((bet-beta1)^2)
+loss2<-sum((bet-beta2)^2)
+knitr::kable(rbind(c("Type","PE","LOSS"),c("lasso with zero-sum constraint",round(c(PE1,loss1),4)),c("lasso without zero-sum constraint",round(c(PE2,loss2),4))))
+```
+
+where "PE" is prediction error which means $\Vert y-Z\hat{\beta}\Vert_2^2/n$ and "LOSS" means $\Vert \beta-\hat{\beta}\Vert_2^2$. From the results above, we can see that lasso with zero-sum constraint performs better than the traditional lasso.
+
+## Introduction to _subgroup_l0_
+
+Consider the subgroup analysis model with $L_0$ penalty:
+\begin{equation*}
+\mathscr{L}_n({\mu},{\beta};\lambda)=\frac{1}{2}\sum_{i=1}^{n}(y_i-{x}_i{\beta}-\mu_i)^2+\frac{1}{2}\lambda\sum_{i< j}^{n}\mathbb{1}(\mu_i-\mu_j),
+\end{equation*}
+The problem is NP-hard and cannot be solved directly. To avoid this problem, we use the ridge regression to approximate $L_0$ method. Let
+\begin{equation*}
+	\sum_{i< j}^{n}\mathbb{1}(\mu_i-\mu_j)\approx\sum_{i< j}^{n}w_{ij}(\mu_i-\mu_j)^2=({B}{\mu})^Tdiag({w}){B}{\mu},
+\end{equation*}
+where ${w}=(w_{12},w_{13},\cdots,w_{n-1,n})\in\mathbb{R}^{\frac{n(n-1)}{2}}$ and let ${B}_{ij}={e}_i-{e}_j$，${B}=({B}_{12},{B}_{13},\cdots,{B}_{n-1,n})^T\in\mathbb{R}^{\frac{n(n-1)}{2}\times n}$, so the model can be transformed to 
+\begin{equation*}
+	\mathscr{F}_n({\mu},{\beta};\lambda)=\frac{1}{2}({y}-{X}{\beta}-{\mu})^T({y}-{X}{\beta}-{\mu})+\frac{1}{2}\lambda({B}{\mu})^Tdiag({w}){B}{\mu},
+\end{equation*}
+which can be solved directly, and 
+\begin{equation*}
+	{\mu}=({I}+\lambda{B}^Tdiag({w}){B})^{-1}({y}-{X}{\beta}),
+\end{equation*}
+\begin{equation*}
+	{\beta}=({X}^T{X})^{-1}{X}^T({y}-{\mu}).
+\end{equation*}
+
+Then we have the algorithm as follows:
+	
+Step 1. ${\beta}^{(0)},{\mu}^{(0)}$is the estimated value obtained by the least square method,${w}^{(0)}={1}$;
+	
+Step 2. Update ${\mu}^{(l+1)}=({I}+\lambda{B}^Tdiag({w}^{(l)}){B})^{-1}({y}-{X}{\beta}^{(k)})$ until convergence;
+	
+Step 3. Update $w_{ij}^{(l)}=(|\mu_i^{(l)}-\mu_j^{(l)}|^{\gamma}+\delta^{\gamma})^{\frac{-2}{\gamma}}$;
+	
+Step 4. Update ${\beta}^{(k+1)}$is weighted average of coefficients for each subgroup of ${\mu}^{(l)}$;
+		
+Step 5. Repeat Step 2-4 until convergence and output $\hat{\beta}$,$\hat{\mu}$.
+	
+And we select the tunning parameter by a modified BIC criterion:
+
+\begin{equation*}
+	{\rm BIC}(\lambda)=\ln(\hat{\sigma}_{\lambda}^2)+s_{\lambda}\times \frac{\ln(n)}{n}\times \ln \ln (n+p).
+\end{equation*}
+
+where $\hat{\sigma}_{\lambda}^2={\rm SSE}_{\lambda}/n=\|{y}-{X}\hat{{\beta}}(\lambda)-\hat{{\mu}}(\lambda)\|_2^2/n$, and $s_{\lambda}$ is the sum of individuals in subgroups with too small number of individuals.
+
+The source R code for _subgroup_l0_ is as follows:
+
+```{r}
+subgroup_l0<-function(y,X,lam){
+  n<-length(y)
+  p<-ncol(X)
+  B <- matrix(0, nrow = n*(n-1)/2, ncol = n)
+  for (i in 1:(n-1)) {
+    for (j in (i+1):n) {
+      B[(2*n-i)*(i-1)/2+j-i,i]<-1
+      B[(2*n-i)*(i-1)/2+j-i,j]<--1
+    }
+  }
+  x<-solve(t(X)%*%X)%*%t(X)
+  delta<-1e-5
+  gamma<-2
+  mu.total<-vector()
+  BIC<-vector()
+  beta.total<-vector()
+  for (i in 1:(length(lam))) {
+    lambda<-lam[i]
+    beta0<-matrix(lm(y~X)$coefficient[2:(p+1)], nrow = p, ncol = 1)
+    mu0<-matrix(lm(y~X)$coefficient[1], nrow = n, ncol = 1)
+    w<-rep(1,n*(n-1)/2)
+    f<-1
+    while(f==1){
+      mu<-solve(lambda*t(B)%*%diag(w)%*%B+diag(n))%*%(y-X%*%beta0)
+      if(sum((mu-mu0)^2)<10-5) f<-0
+      mu0<-mu
+      Bmu<-B%*%mu
+      for(i in 1:(n*(n-1)/2)){
+        if(Bmu[i,1]<=delta) w[i]=delta^(-2)*exp(-2*log(1+abs(Bmu[i,1]/delta)^gamma)/gamma)
+        else w[i]=abs(Bmu[i,1])^(-2)*exp(-2*log(1+abs(delta/Bmu[i,1])^gamma)/gamma)
+      }
+    }
+    
+    t<-table(round(mu))
+    c<-which(as.numeric(t)>=0.05*n)
+    mu<-round(mu)
+    name<-as.numeric(names(t))
+    beta.group<-matrix(0,nrow=length(which(as.numeric(t)>=0.05*n)),ncol=p)
+    for(i in c){
+      beta.group[which(c==i),]<-lm(y[which(mu==name[i]),]~X[which(mu==name[i]),])$coefficient[-1]
+    }
+    beta.group[is.na(beta.group)]<-0
+    beta<-colSums( beta.group*as.numeric(t)[which(as.numeric(t)>=0.05*n)])/sum(as.numeric(t)[which(as.numeric(t)>=0.05*n)])
+    
+    if(sum((beta-beta0)^2)<10e-5) F<-0
+    beta0<-beta
+    
+    F<-1
+    
+    while(F==1){
+      
+      f<-1
+      k<-0
+      while(f==1){
+        k<-k+1
+        mu<-solve(lambda*t(B)%*%diag(w)%*%B+diag(n))%*%(y-X%*%beta0)
+        if(sum((mu-mu0)^2)<10-5) f<-0
+        mu0<-mu
+        Bmu<-B%*%mu
+        for(i in 1:(n*(n-1)/2)){
+          if(Bmu[i,1]<=delta) w[i]=delta^(-2)*exp(-2*log(1+abs(Bmu[i,1]/delta)^gamma)/gamma)
+          else w[i]=abs(Bmu[i,1])^(-2)*exp(-2*log(1+abs(delta/Bmu[i,1])^gamma)/gamma)
+        }
+      }
+      
+      
+      
+      t<-table(round(mu))
+      c<-which(as.numeric(t)>=0.05*n)
+      mu0<-round(mu)
+      name<-as.numeric(names(t))
+      beta.group<-matrix(0,nrow=length(which(as.numeric(t)>=0.05*n)),ncol=p)
+      for(i in c){
+        beta.group[which(c==i),]<-lm(y[which(mu0==name[i]),]~X[which(mu0==name[i]),])$coefficient[-1]
+      }
+      beta.group[is.na(beta.group)]<-0
+      beta<-colSums( beta.group*as.numeric(t)[which(as.numeric(t)>=0.05*n)])/sum(as.numeric(t)[which(as.numeric(t)>=0.05*n)])
+      
+      if(sum((beta-beta0)^2)<10e-5) F<-0
+      beta0<-beta
+    }
+    
+    beta.total<-rbind(beta.total,beta)
+    mu.total<-cbind(mu.total,round(mu,1))
+    
+    BIC<-c(BIC,log(sum((y-X%*%beta-round(mu))^2)/n) +  log(log(n+2))*log(n)*sum(as.numeric(table(round(mu)))[which( as.numeric(table(round(mu)))<0.1*n)])/n)
+    
+    
+  }
+  return(list(beta=beta.total,mu=mu.total,BIC=BIC,lambda=lambda))
+}
+  
+```
+
+To test the effect of the function, we first generate data:
+
+```{r}
+set.seed(12)
+n<-80
+library(MASS)
+y<-matrix(0,ncol=1,nrow=n)
+
+X<-mvrnorm(n,rep(0,2),diag(2))
+beta<-matrix(c(3,2), nrow = 2, ncol = 1)
+y<-X%*%beta+rnorm(n,0,1)
+
+y[1:40,]<-y[1:40,]+rep(-3,40)
+y[41:80]<-y[41:80]+rep(3,40)
+```
+
+We use the approximation of $L_0$ penalty to perform the subgroup analysis:
+
+```{r}
+lam<-c(0.015,0.03,0.07,0.1,0.3)
+result<-subgroup_l0(y,X,lam)
+result$BIC
+```
+
+From the result above, we can see that when $\lambda=0.03$, the modified BIC reaches its minimum. And we can show the subgroups in the picture: 
+
+```{r}
+plot(result$mu[1,],type = "l",ylim = c(-4,4),ylab = expression(mu),xaxt="n",xlab=expression(lambda))
+axis(1,1:5,lam)
+for (i in 2:80) {
+  lines(result$mu[i,])
+}
+```
+
+From the picture, when $\lambda=0.03$, the data is divided to two subgroups as we set at the first.

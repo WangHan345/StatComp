@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Han Wang" />
+
+<meta name="date" content="2021-12-19" />
+
+<title>Introduction to functions</title>
+
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to functions</h1>
+<h4 class="author">Han Wang</h4>
+<h4 class="date">2021-12-19</h4>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span></code></pre></div>
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p><strong>StatComp21084</strong> is a simple R package developed by Han Wang (21084) for the ‘Statistical Computing’ course. Two functions are considered, namely, <em>giccdmm</em> (perform variable selection of compositional data by lasso or a modified algorithm) and <em>subgroup_l0</em> (perform subgroup analysis with an approximate method of L0 penalty).</p>
+</div>
+<div id="introduction-to-giccdmm" class="section level2">
+<h2>Introduction to <em>giccdmm</em></h2>
+<p>There is an <span class="math inline">\(L_1\)</span> regularization method for the linear log-contrast model that respects the unique features of compositional data. Formulate the proposed procedure as a constrained convex optimization problem and introduce a coordinate descent method of multipliers for efficient computation.</p>
+<p>Consider a model as follows: <span class="math display">\[\begin{equation*}
+y = Z\beta^* + \epsilon, \sum_{j=1}^p \beta_j^*=0,
+\end{equation*}\]</span> where <span class="math inline">\(Z = (log x_{ij})\)</span>, <span class="math inline">\(\beta^*_p = -\sum_{j=1}^{p-1}\beta_j^*\)</span>, <span class="math inline">\(\beta^*=(\beta_1^*,...,\beta^*_{p})^T\)</span> is the p-vector of regression coefficients to be estimated and <span class="math inline">\(y\)</span> is the response variables, <span class="math inline">\(\epsilon\)</span> is an n-vector of independent noise distributed as <span class="math inline">\(N(0,\sigma^2)\)</span>.</p>
+<p><em>giccdmm</em> developed two methods to estimate the regression coefficients <span class="math inline">\(\beta\)</span>. The first is the traditional lasso, which selects the model without zero-sum constraint. The lasso problem is <span class="math display">\[\begin{equation*}
+\hat{\beta}=\underset{\beta}{\arg \min }\left(\frac{1}{2 n}\|y-Z \beta\|_{2}^{2}+\lambda\|\beta\|_{1}\right)
+\end{equation*}\]</span> and the problem can be solved by the traditional method. However, the second method select the model under zero-sum constraint and the model can be transformed to the augmented Lagrangian <span class="math display">\[\begin{equation*}
+L_{\mu}(\beta, \gamma)=\frac{1}{2 n}\|y-Z \beta\|_{2}^{2}+\lambda\|\beta\|_{1}+\gamma \sum_{j=1}^{p} \beta_{j}+\frac{\mu}{2}\left(\sum_{j=1}^{p} \beta_{j}\right)^{2},
+\end{equation*}\]</span> where <span class="math inline">\(\gamma\)</span> is the Lagrange multiplier and <span class="math inline">\(\mu&gt;0\)</span> is a penalty parameter. Define the scaled Lagrange multiplier <span class="math inline">\(\alpha=\gamma/\mu\)</span>, we can develop an optimization algorithm as follows:</p>
+<p>Step 1. Initialize <span class="math inline">\(\beta^{0}\)</span> with 0 or a warm start, <span class="math inline">\(\alpha^{0}=0, \mu&gt;0\)</span> and <span class="math inline">\(k=0\)</span>.</p>
+<p>Step 2. For <span class="math inline">\(j=1, \ldots, p, 1, \ldots, p, \ldots\)</span>, update <span class="math inline">\(\beta_{j}^{k+1}\)</span> by <span class="math inline">\(\beta_{j}^{k+1} \leftarrow \frac{1}{v_{j}+\mu} S_{\lambda}\left\{\frac{1}{n} z_{j}^{\mathrm{T}}\left(y-\sum_{i \neq j} \beta_{i}^{k+1} z_{i}\right)-\mu\left(\sum_{i \neq j} \beta_{i}^{k+1}+\alpha^{k}\right)\right\}\)</span> until convergence, where <span class="math inline">\(v_{j}=\left\|z_{j}\right\|_{2}^{2} / n\)</span> and <span class="math inline">\(S_{\lambda}(t)=\operatorname{sgn}(t)(|t|-\lambda)_{+}\)</span>is the soft thresholding operator.</p>
+<p>Step 3. Update <span class="math inline">\(\alpha^{k+1}\)</span> by <span class="math inline">\(\alpha^{k+1} \leftarrow \alpha^{k}+\sum_{j=1}^{p} \beta_{j}^{k+1}\)</span>.</p>
+<p>Step 4. Update <span class="math inline">\(k \leftarrow k+1\)</span>, and repeat Steps 2 and 3 until convergence. Output <span class="math inline">\(\hat{\beta}=\beta^{k+1}\)</span>.</p>
+<p>And we select the tunning parameter by GIC:</p>
+<p><span class="math display">\[
+\operatorname{GIC}(\lambda)=\log \hat{\sigma}_{\lambda}^{2}+\left(s_{\lambda}-1\right) \frac{\log \log n}{n} \log (p \vee n),
+\]</span> where <span class="math inline">\(\hat{\sigma}_{\lambda}^{2}=\left\|y-Z \hat{\beta}_{\lambda}\right\|_{2}^{2} / n, \hat{\beta}_{\lambda}\)</span> is the regularized estimator, <span class="math inline">\(p \vee n=\max (p, n)\)</span>, and <span class="math inline">\(s_{\lambda}\)</span> is the number of nonzero coefficients in <span class="math inline">\(\hat{\beta}_{\lambda}\)</span>. Because of the zero-sum constraint, the effective number of free parameters is <span class="math inline">\(s_{\lambda}-1\)</span> for <span class="math inline">\(s_{\lambda} \geqslant 2\)</span>.</p>
+<p>The source R code for <em>giccdmm</em> is as follows:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>giccdmm <span class="ot">&lt;-</span> <span class="cf">function</span>(y, z, lambda, <span class="at">constr=</span><span class="cn">TRUE</span>,<span class="at">maxit=</span><span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">50</span>)) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  n<span class="ot">&lt;-</span><span class="fu">length</span>(y)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  p<span class="ot">&lt;-</span><span class="fu">ncol</span>(z)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  l<span class="ot">&lt;-</span><span class="fu">length</span>(lambda)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  gic<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">0</span>,l)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  beta.total<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="dv">0</span>,<span class="at">ncol=</span>p,<span class="at">nrow=</span>l)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>l){</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(constr){</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>      mu<span class="ot">&lt;-</span><span class="dv">1</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      beta.old<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">1</span>,p)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      beta<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">0</span>,p)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>      beta0<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">1</span>,p)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>      alpha<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>      lam<span class="ot">&lt;-</span>lambda[i]</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>      k<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>      <span class="cf">while</span> (k<span class="sc">&lt;</span>maxit <span class="sc">&amp;</span> <span class="fu">sum</span>(<span class="fu">abs</span>(beta<span class="sc">-</span>beta0))<span class="sc">&gt;</span><span class="fl">10e-8</span>) {</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        beta0<span class="ot">&lt;-</span>beta</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (<span class="fu">sum</span>(<span class="fu">abs</span>(beta<span class="sc">-</span>beta.old))<span class="sc">&gt;</span><span class="fl">10e-8</span>) {</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>          beta.old<span class="ot">&lt;-</span>beta</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>p) {</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            t<span class="ot">&lt;-</span><span class="fu">t</span>(z[,j])<span class="sc">%*%</span>(y<span class="sc">-</span>z[,<span class="sc">-</span>j]<span class="sc">%*%</span>beta[<span class="sc">-</span>j])<span class="sc">/</span>n<span class="sc">-</span>mu<span class="sc">*</span>(<span class="fu">sum</span>(beta[<span class="sc">-</span>j])<span class="sc">+</span>alpha)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>            beta[j]<span class="ot">&lt;-</span><span class="fu">sign</span>(t)<span class="sc">*</span><span class="fu">max</span>(<span class="fu">c</span>(<span class="fu">abs</span>(t)<span class="sc">-</span>lam,<span class="dv">0</span>))<span class="sc">/</span>(<span class="fu">sum</span>(z[,j]<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>n<span class="sc">+</span>mu)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        alpha<span class="ot">&lt;-</span>alpha<span class="sc">+</span><span class="fu">sum</span>(beta)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        k<span class="ot">&lt;-</span>k<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>      beta.total[i,]<span class="ot">&lt;-</span>beta</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>      gic[i]<span class="ot">&lt;-</span><span class="fu">log</span>(<span class="fu">sum</span>((y<span class="sc">-</span>z<span class="sc">%*%</span>beta)<span class="sc">^</span><span class="dv">2</span>))<span class="sc">+</span>(<span class="fu">length</span>(<span class="fu">which</span>(beta<span class="sc">!=</span><span class="dv">0</span>))<span class="sc">-</span><span class="dv">1</span>)<span class="sc">*</span><span class="fu">log</span>(<span class="fu">log</span>(n))<span class="sc">*</span><span class="fu">log</span>(<span class="fu">max</span>(p,n))<span class="sc">/</span>n</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>{</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>      mu<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>      beta.old<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">1</span>,p)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>      beta<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">0</span>,p)</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>      beta0<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">1</span>,p)</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>      alpha<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>      lam<span class="ot">&lt;-</span>lambda[i]</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>      k<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>      <span class="cf">while</span> (k<span class="sc">&lt;</span>maxit <span class="sc">&amp;</span> <span class="fu">sum</span>(<span class="fu">abs</span>(beta<span class="sc">-</span>beta0))<span class="sc">&gt;</span><span class="fl">10e-8</span>) {</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>        beta0<span class="ot">&lt;-</span>beta</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> (<span class="fu">sum</span>(<span class="fu">abs</span>(beta<span class="sc">-</span>beta.old))<span class="sc">&gt;</span><span class="fl">10e-8</span>) {</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>          beta.old<span class="ot">&lt;-</span>beta</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span> (j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>p) {</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>            t<span class="ot">&lt;-</span><span class="fu">t</span>(z[,j])<span class="sc">%*%</span>(y<span class="sc">-</span>z[,<span class="sc">-</span>j]<span class="sc">%*%</span>beta[<span class="sc">-</span>j])<span class="sc">/</span>n<span class="sc">-</span>mu<span class="sc">*</span>(<span class="fu">sum</span>(beta[<span class="sc">-</span>j])<span class="sc">+</span>alpha)</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>            beta[j]<span class="ot">&lt;-</span><span class="fu">sign</span>(t)<span class="sc">*</span><span class="fu">max</span>(<span class="fu">c</span>(<span class="fu">abs</span>(t)<span class="sc">-</span>lam,<span class="dv">0</span>))<span class="sc">/</span>(<span class="fu">sum</span>(z[,j]<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>n<span class="sc">+</span>mu)</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>        alpha<span class="ot">&lt;-</span>alpha<span class="sc">+</span><span class="fu">sum</span>(beta)</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>        k<span class="ot">&lt;-</span>k<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>      beta.total[i,]<span class="ot">&lt;-</span>beta</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>      gic[i]<span class="ot">&lt;-</span><span class="fu">log</span>(<span class="fu">sum</span>((y<span class="sc">-</span>z<span class="sc">%*%</span>beta)<span class="sc">^</span><span class="dv">2</span>))<span class="sc">+</span>(<span class="fu">length</span>(<span class="fu">which</span>(beta<span class="sc">!=</span><span class="dv">0</span>))<span class="sc">-</span><span class="dv">1</span>)<span class="sc">*</span><span class="fu">log</span>(<span class="fu">log</span>(n))<span class="sc">*</span><span class="fu">log</span>(<span class="fu">max</span>(p,n))<span class="sc">/</span>n</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  s<span class="ot">&lt;-</span><span class="fu">which.min</span>(gic)</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">beta=</span>beta.total,<span class="at">gic=</span>gic,<span class="at">lam=</span>lambda))</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>To test the effect of the function, we first generate a compositional data:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mvtnorm)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sim.data <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">n=</span><span class="dv">50</span>, <span class="at">p=</span><span class="dv">30</span>, <span class="at">rho=</span><span class="fl">0.2</span>, <span class="at">seed=</span><span class="dv">123</span>) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">set.seed</span>(seed)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    bet <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="fl">0.8</span>, <span class="fl">0.6</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="fl">1.5</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">1.2</span>, <span class="fu">rep</span>(<span class="dv">0</span>, p <span class="sc">-</span> <span class="dv">8</span>))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    alp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(p<span class="sc">/</span><span class="dv">2</span>, <span class="dv">5</span>), <span class="fu">rep</span>(<span class="dv">1</span>, p <span class="sc">-</span> <span class="dv">5</span>))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    sig <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">1</span>, p, p)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    sig <span class="ot">&lt;-</span> rho<span class="sc">^</span><span class="fu">abs</span>(<span class="fu">row</span>(sig) <span class="sc">-</span> <span class="fu">col</span>(sig))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="cf">switch</span>(<span class="st">&quot;ln&quot;</span>, <span class="at">ln=</span>{x <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">rmvnorm</span>(n, <span class="fu">log</span>(alp), sig)); x<span class="sc">/</span><span class="fu">rowSums</span>(x)}, <span class="at">dir=</span><span class="fu">rdirichlet</span>(n, alp))</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    z <span class="ot">&lt;-</span> <span class="fu">log</span>(x)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n, z <span class="sc">%*%</span> bet, <span class="fl">0.5</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">y=</span>y, <span class="at">z=</span>z, <span class="at">bet=</span>bet)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(data)</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>data<span class="ot">&lt;-</span><span class="fu">sim.data</span>()</span></code></pre></div>
+<p>Then we use the two method to select a appropriate model for the data generated above:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lambda<span class="ot">&lt;-</span><span class="fu">seq</span>(<span class="fl">0.05</span>,<span class="fl">0.15</span>,<span class="fl">0.02</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>bet <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="fl">0.8</span>, <span class="fl">0.6</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="sc">-</span><span class="fl">1.5</span>, <span class="sc">-</span><span class="fl">0.5</span>, <span class="fl">1.2</span>, <span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">30</span> <span class="sc">-</span> <span class="dv">8</span>))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>result1<span class="ot">&lt;-</span><span class="fu">giccdmm</span>(data<span class="sc">$</span>y,data<span class="sc">$</span>z,lambda,<span class="at">constr =</span> T,<span class="at">maxit =</span> <span class="dv">40</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>result2<span class="ot">&lt;-</span><span class="fu">giccdmm</span>(data<span class="sc">$</span>y,data<span class="sc">$</span>z,lambda,<span class="at">constr =</span> F,<span class="at">maxit =</span> <span class="dv">40</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>beta1<span class="ot">&lt;-</span>result1<span class="sc">$</span>beta[<span class="fu">which.min</span>(result1<span class="sc">$</span>gic),]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>beta2<span class="ot">&lt;-</span>result2<span class="sc">$</span>beta[<span class="fu">which.min</span>(result2<span class="sc">$</span>gic),]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>PE1<span class="ot">&lt;-</span><span class="fu">sum</span>((data<span class="sc">$</span>y<span class="sc">-</span>data<span class="sc">$</span>z<span class="sc">%*%</span>beta1)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="dv">50</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>PE2<span class="ot">&lt;-</span><span class="fu">sum</span>((data<span class="sc">$</span>y<span class="sc">-</span>data<span class="sc">$</span>z<span class="sc">%*%</span>beta2)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="dv">50</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>loss1<span class="ot">&lt;-</span><span class="fu">sum</span>((bet<span class="sc">-</span>beta1)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>loss2<span class="ot">&lt;-</span><span class="fu">sum</span>((bet<span class="sc">-</span>beta2)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="fu">rbind</span>(<span class="fu">c</span>(<span class="st">&quot;Type&quot;</span>,<span class="st">&quot;PE&quot;</span>,<span class="st">&quot;LOSS&quot;</span>),<span class="fu">c</span>(<span class="st">&quot;lasso with zero-sum constraint&quot;</span>,<span class="fu">round</span>(<span class="fu">c</span>(PE1,loss1),<span class="dv">4</span>)),<span class="fu">c</span>(<span class="st">&quot;lasso without zero-sum constraint&quot;</span>,<span class="fu">round</span>(<span class="fu">c</span>(PE2,loss2),<span class="dv">4</span>))))</span></code></pre></div>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left">Type</td>
+<td align="left">PE</td>
+<td align="left">LOSS</td>
+</tr>
+<tr class="even">
+<td align="left">lasso with zero-sum constraint</td>
+<td align="left">0.1767</td>
+<td align="left">0.171</td>
+</tr>
+<tr class="odd">
+<td align="left">lasso without zero-sum constraint</td>
+<td align="left">0.2374</td>
+<td align="left">0.3072</td>
+</tr>
+</tbody>
+</table>
+<p>where “PE” is prediction error which means <span class="math inline">\(\Vert y-Z\hat{\beta}\Vert_2^2/n\)</span> and “LOSS” means <span class="math inline">\(\Vert \beta-\hat{\beta}\Vert_2^2\)</span>. From the results above, we can see that lasso with zero-sum constraint performs better than the traditional lasso.</p>
+</div>
+<div id="introduction-to-subgroup_l0" class="section level2">
+<h2>Introduction to <em>subgroup_l0</em></h2>
+<p>Consider the subgroup analysis model with <span class="math inline">\(L_0\)</span> penalty: <span class="math display">\[\begin{equation*}
+\mathscr{L}_n({\mu},{\beta};\lambda)=\frac{1}{2}\sum_{i=1}^{n}(y_i-{x}_i{\beta}-\mu_i)^2+\frac{1}{2}\lambda\sum_{i&lt; j}^{n}\mathbb{1}(\mu_i-\mu_j),
+\end{equation*}\]</span> The problem is NP-hard and cannot be solved directly. To avoid this problem, we use the ridge regression to approximate <span class="math inline">\(L_0\)</span> method. Let <span class="math display">\[\begin{equation*}
+    \sum_{i&lt; j}^{n}\mathbb{1}(\mu_i-\mu_j)\approx\sum_{i&lt; j}^{n}w_{ij}(\mu_i-\mu_j)^2=({B}{\mu})^Tdiag({w}){B}{\mu},
+\end{equation*}\]</span> where <span class="math inline">\({w}=(w_{12},w_{13},\cdots,w_{n-1,n})\in\mathbb{R}^{\frac{n(n-1)}{2}}\)</span> and let <span class="math inline">\({B}_{ij}={e}_i-{e}_j\)</span>，<span class="math inline">\({B}=({B}_{12},{B}_{13},\cdots,{B}_{n-1,n})^T\in\mathbb{R}^{\frac{n(n-1)}{2}\times n}\)</span>, so the model can be transformed to <span class="math display">\[\begin{equation*}
+    \mathscr{F}_n({\mu},{\beta};\lambda)=\frac{1}{2}({y}-{X}{\beta}-{\mu})^T({y}-{X}{\beta}-{\mu})+\frac{1}{2}\lambda({B}{\mu})^Tdiag({w}){B}{\mu},
+\end{equation*}\]</span> which can be solved directly, and <span class="math display">\[\begin{equation*}
+    {\mu}=({I}+\lambda{B}^Tdiag({w}){B})^{-1}({y}-{X}{\beta}),
+\end{equation*}\]</span> <span class="math display">\[\begin{equation*}
+    {\beta}=({X}^T{X})^{-1}{X}^T({y}-{\mu}).
+\end{equation*}\]</span></p>
+<p>Then we have the algorithm as follows:</p>
+<p>Step 1. <span class="math inline">\({\beta}^{(0)},{\mu}^{(0)}\)</span>is the estimated value obtained by the least square method,<span class="math inline">\({w}^{(0)}={1}\)</span>;</p>
+<p>Step 2. Update <span class="math inline">\({\mu}^{(l+1)}=({I}+\lambda{B}^Tdiag({w}^{(l)}){B})^{-1}({y}-{X}{\beta}^{(k)})\)</span> until convergence;</p>
+<p>Step 3. Update <span class="math inline">\(w_{ij}^{(l)}=(|\mu_i^{(l)}-\mu_j^{(l)}|^{\gamma}+\delta^{\gamma})^{\frac{-2}{\gamma}}\)</span>;</p>
+<p>Step 4. Update <span class="math inline">\({\beta}^{(k+1)}\)</span>is weighted average of coefficients for each subgroup of <span class="math inline">\({\mu}^{(l)}\)</span>;</p>
+<p>Step 5. Repeat Step 2-4 until convergence and output <span class="math inline">\(\hat{\beta}\)</span>,<span class="math inline">\(\hat{\mu}\)</span>.</p>
+<p>And we select the tunning parameter by a modified BIC criterion:</p>
+<p><span class="math display">\[\begin{equation*}
+    {\rm BIC}(\lambda)=\ln(\hat{\sigma}_{\lambda}^2)+s_{\lambda}\times \frac{\ln(n)}{n}\times \ln \ln (n+p).
+\end{equation*}\]</span></p>
+<p>where <span class="math inline">\(\hat{\sigma}_{\lambda}^2={\rm SSE}_{\lambda}/n=\|{y}-{X}\hat{{\beta}}(\lambda)-\hat{{\mu}}(\lambda)\|_2^2/n\)</span>, and <span class="math inline">\(s_{\lambda}\)</span> is the sum of individuals in subgroups with too small number of individuals.</p>
+<p>The source R code for <em>subgroup_l0</em> is as follows:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>subgroup_l0<span class="ot">&lt;-</span><span class="cf">function</span>(y,X,lam){</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  n<span class="ot">&lt;-</span><span class="fu">length</span>(y)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  p<span class="ot">&lt;-</span><span class="fu">ncol</span>(X)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  B <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> n<span class="sc">*</span>(n<span class="dv">-1</span>)<span class="sc">/</span><span class="dv">2</span>, <span class="at">ncol =</span> n)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(n<span class="dv">-1</span>)) {</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (j <span class="cf">in</span> (i<span class="sc">+</span><span class="dv">1</span>)<span class="sc">:</span>n) {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>      B[(<span class="dv">2</span><span class="sc">*</span>n<span class="sc">-</span>i)<span class="sc">*</span>(i<span class="dv">-1</span>)<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span>j<span class="sc">-</span>i,i]<span class="ot">&lt;-</span><span class="dv">1</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      B[(<span class="dv">2</span><span class="sc">*</span>n<span class="sc">-</span>i)<span class="sc">*</span>(i<span class="dv">-1</span>)<span class="sc">/</span><span class="dv">2</span><span class="sc">+</span>j<span class="sc">-</span>i,j]<span class="ot">&lt;-</span><span class="sc">-</span><span class="dv">1</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  x<span class="ot">&lt;-</span><span class="fu">solve</span>(<span class="fu">t</span>(X)<span class="sc">%*%</span>X)<span class="sc">%*%</span><span class="fu">t</span>(X)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  delta<span class="ot">&lt;-</span><span class="fl">1e-5</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  gamma<span class="ot">&lt;-</span><span class="dv">2</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  mu.total<span class="ot">&lt;-</span><span class="fu">vector</span>()</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  BIC<span class="ot">&lt;-</span><span class="fu">vector</span>()</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  beta.total<span class="ot">&lt;-</span><span class="fu">vector</span>()</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">length</span>(lam))) {</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    lambda<span class="ot">&lt;-</span>lam[i]</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    beta0<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="fu">lm</span>(y<span class="sc">~</span>X)<span class="sc">$</span>coefficient[<span class="dv">2</span><span class="sc">:</span>(p<span class="sc">+</span><span class="dv">1</span>)], <span class="at">nrow =</span> p, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    mu0<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="fu">lm</span>(y<span class="sc">~</span>X)<span class="sc">$</span>coefficient[<span class="dv">1</span>], <span class="at">nrow =</span> n, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    w<span class="ot">&lt;-</span><span class="fu">rep</span>(<span class="dv">1</span>,n<span class="sc">*</span>(n<span class="dv">-1</span>)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    f<span class="ot">&lt;-</span><span class="dv">1</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span>(f<span class="sc">==</span><span class="dv">1</span>){</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>      mu<span class="ot">&lt;-</span><span class="fu">solve</span>(lambda<span class="sc">*</span><span class="fu">t</span>(B)<span class="sc">%*%</span><span class="fu">diag</span>(w)<span class="sc">%*%</span>B<span class="sc">+</span><span class="fu">diag</span>(n))<span class="sc">%*%</span>(y<span class="sc">-</span>X<span class="sc">%*%</span>beta0)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(<span class="fu">sum</span>((mu<span class="sc">-</span>mu0)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">&lt;</span><span class="dv">10-5</span>) f<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>      mu0<span class="ot">&lt;-</span>mu</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>      Bmu<span class="ot">&lt;-</span>B<span class="sc">%*%</span>mu</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(n<span class="sc">*</span>(n<span class="dv">-1</span>)<span class="sc">/</span><span class="dv">2</span>)){</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(Bmu[i,<span class="dv">1</span>]<span class="sc">&lt;=</span>delta) w[i]<span class="ot">=</span>delta<span class="sc">^</span>(<span class="sc">-</span><span class="dv">2</span>)<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">abs</span>(Bmu[i,<span class="dv">1</span>]<span class="sc">/</span>delta)<span class="sc">^</span>gamma)<span class="sc">/</span>gamma)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> w[i]<span class="ot">=</span><span class="fu">abs</span>(Bmu[i,<span class="dv">1</span>])<span class="sc">^</span>(<span class="sc">-</span><span class="dv">2</span>)<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">abs</span>(delta<span class="sc">/</span>Bmu[i,<span class="dv">1</span>])<span class="sc">^</span>gamma)<span class="sc">/</span>gamma)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    t<span class="ot">&lt;-</span><span class="fu">table</span>(<span class="fu">round</span>(mu))</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    c<span class="ot">&lt;-</span><span class="fu">which</span>(<span class="fu">as.numeric</span>(t)<span class="sc">&gt;=</span><span class="fl">0.05</span><span class="sc">*</span>n)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    mu<span class="ot">&lt;-</span><span class="fu">round</span>(mu)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    name<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(<span class="fu">names</span>(t))</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    beta.group<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="dv">0</span>,<span class="at">nrow=</span><span class="fu">length</span>(<span class="fu">which</span>(<span class="fu">as.numeric</span>(t)<span class="sc">&gt;=</span><span class="fl">0.05</span><span class="sc">*</span>n)),<span class="at">ncol=</span>p)</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(i <span class="cf">in</span> c){</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>      beta.group[<span class="fu">which</span>(c<span class="sc">==</span>i),]<span class="ot">&lt;-</span><span class="fu">lm</span>(y[<span class="fu">which</span>(mu<span class="sc">==</span>name[i]),]<span class="sc">~</span>X[<span class="fu">which</span>(mu<span class="sc">==</span>name[i]),])<span class="sc">$</span>coefficient[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    beta.group[<span class="fu">is.na</span>(beta.group)]<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>    beta<span class="ot">&lt;-</span><span class="fu">colSums</span>( beta.group<span class="sc">*</span><span class="fu">as.numeric</span>(t)[<span class="fu">which</span>(<span class="fu">as.numeric</span>(t)<span class="sc">&gt;=</span><span class="fl">0.05</span><span class="sc">*</span>n)])<span class="sc">/</span><span class="fu">sum</span>(<span class="fu">as.numeric</span>(t)[<span class="fu">which</span>(<span class="fu">as.numeric</span>(t)<span class="sc">&gt;=</span><span class="fl">0.05</span><span class="sc">*</span>n)])</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">sum</span>((beta<span class="sc">-</span>beta0)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">&lt;</span><span class="fl">10e-5</span>) F<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>    beta0<span class="ot">&lt;-</span>beta</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>    F<span class="ot">&lt;-</span><span class="dv">1</span></span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span>(F<span class="sc">==</span><span class="dv">1</span>){</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>      f<span class="ot">&lt;-</span><span class="dv">1</span></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>      k<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>      <span class="cf">while</span>(f<span class="sc">==</span><span class="dv">1</span>){</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>        k<span class="ot">&lt;-</span>k<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        mu<span class="ot">&lt;-</span><span class="fu">solve</span>(lambda<span class="sc">*</span><span class="fu">t</span>(B)<span class="sc">%*%</span><span class="fu">diag</span>(w)<span class="sc">%*%</span>B<span class="sc">+</span><span class="fu">diag</span>(n))<span class="sc">%*%</span>(y<span class="sc">-</span>X<span class="sc">%*%</span>beta0)</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(<span class="fu">sum</span>((mu<span class="sc">-</span>mu0)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">&lt;</span><span class="dv">10-5</span>) f<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>        mu0<span class="ot">&lt;-</span>mu</span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>        Bmu<span class="ot">&lt;-</span>B<span class="sc">%*%</span>mu</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(n<span class="sc">*</span>(n<span class="dv">-1</span>)<span class="sc">/</span><span class="dv">2</span>)){</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span>(Bmu[i,<span class="dv">1</span>]<span class="sc">&lt;=</span>delta) w[i]<span class="ot">=</span>delta<span class="sc">^</span>(<span class="sc">-</span><span class="dv">2</span>)<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">abs</span>(Bmu[i,<span class="dv">1</span>]<span class="sc">/</span>delta)<span class="sc">^</span>gamma)<span class="sc">/</span>gamma)</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>          <span class="cf">else</span> w[i]<span class="ot">=</span><span class="fu">abs</span>(Bmu[i,<span class="dv">1</span>])<span class="sc">^</span>(<span class="sc">-</span><span class="dv">2</span>)<span class="sc">*</span><span class="fu">exp</span>(<span class="sc">-</span><span class="dv">2</span><span class="sc">*</span><span class="fu">log</span>(<span class="dv">1</span><span class="sc">+</span><span class="fu">abs</span>(delta<span class="sc">/</span>Bmu[i,<span class="dv">1</span>])<span class="sc">^</span>gamma)<span class="sc">/</span>gamma)</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>      t<span class="ot">&lt;-</span><span class="fu">table</span>(<span class="fu">round</span>(mu))</span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>      c<span class="ot">&lt;-</span><span class="fu">which</span>(<span class="fu">as.numeric</span>(t)<span class="sc">&gt;=</span><span class="fl">0.05</span><span class="sc">*</span>n)</span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>      mu0<span class="ot">&lt;-</span><span class="fu">round</span>(mu)</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>      name<span class="ot">&lt;-</span><span class="fu">as.numeric</span>(<span class="fu">names</span>(t))</span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>      beta.group<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="dv">0</span>,<span class="at">nrow=</span><span class="fu">length</span>(<span class="fu">which</span>(<span class="fu">as.numeric</span>(t)<span class="sc">&gt;=</span><span class="fl">0.05</span><span class="sc">*</span>n)),<span class="at">ncol=</span>p)</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span>(i <span class="cf">in</span> c){</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>        beta.group[<span class="fu">which</span>(c<span class="sc">==</span>i),]<span class="ot">&lt;-</span><span class="fu">lm</span>(y[<span class="fu">which</span>(mu0<span class="sc">==</span>name[i]),]<span class="sc">~</span>X[<span class="fu">which</span>(mu0<span class="sc">==</span>name[i]),])<span class="sc">$</span>coefficient[<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>      beta.group[<span class="fu">is.na</span>(beta.group)]<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>      beta<span class="ot">&lt;-</span><span class="fu">colSums</span>( beta.group<span class="sc">*</span><span class="fu">as.numeric</span>(t)[<span class="fu">which</span>(<span class="fu">as.numeric</span>(t)<span class="sc">&gt;=</span><span class="fl">0.05</span><span class="sc">*</span>n)])<span class="sc">/</span><span class="fu">sum</span>(<span class="fu">as.numeric</span>(t)[<span class="fu">which</span>(<span class="fu">as.numeric</span>(t)<span class="sc">&gt;=</span><span class="fl">0.05</span><span class="sc">*</span>n)])</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(<span class="fu">sum</span>((beta<span class="sc">-</span>beta0)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">&lt;</span><span class="fl">10e-5</span>) F<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>      beta0<span class="ot">&lt;-</span>beta</span>
+<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>    beta.total<span class="ot">&lt;-</span><span class="fu">rbind</span>(beta.total,beta)</span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>    mu.total<span class="ot">&lt;-</span><span class="fu">cbind</span>(mu.total,<span class="fu">round</span>(mu,<span class="dv">1</span>))</span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>    BIC<span class="ot">&lt;-</span><span class="fu">c</span>(BIC,<span class="fu">log</span>(<span class="fu">sum</span>((y<span class="sc">-</span>X<span class="sc">%*%</span>beta<span class="sc">-</span><span class="fu">round</span>(mu))<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span>n) <span class="sc">+</span>  <span class="fu">log</span>(<span class="fu">log</span>(n<span class="sc">+</span><span class="dv">2</span>))<span class="sc">*</span><span class="fu">log</span>(n)<span class="sc">*</span><span class="fu">sum</span>(<span class="fu">as.numeric</span>(<span class="fu">table</span>(<span class="fu">round</span>(mu)))[<span class="fu">which</span>( <span class="fu">as.numeric</span>(<span class="fu">table</span>(<span class="fu">round</span>(mu)))<span class="sc">&lt;</span><span class="fl">0.1</span><span class="sc">*</span>n)])<span class="sc">/</span>n)</span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">beta=</span>beta.total,<span class="at">mu=</span>mu.total,<span class="at">BIC=</span>BIC,<span class="at">lambda=</span>lambda))</span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>To test the effect of the function, we first generate data:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">12</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>n<span class="ot">&lt;-</span><span class="dv">80</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="dv">0</span>,<span class="at">ncol=</span><span class="dv">1</span>,<span class="at">nrow=</span>n)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>X<span class="ot">&lt;-</span><span class="fu">mvrnorm</span>(n,<span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">2</span>),<span class="fu">diag</span>(<span class="dv">2</span>))</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>beta<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">1</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span>X<span class="sc">%*%</span>beta<span class="sc">+</span><span class="fu">rnorm</span>(n,<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>y[<span class="dv">1</span><span class="sc">:</span><span class="dv">40</span>,]<span class="ot">&lt;-</span>y[<span class="dv">1</span><span class="sc">:</span><span class="dv">40</span>,]<span class="sc">+</span><span class="fu">rep</span>(<span class="sc">-</span><span class="dv">3</span>,<span class="dv">40</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>y[<span class="dv">41</span><span class="sc">:</span><span class="dv">80</span>]<span class="ot">&lt;-</span>y[<span class="dv">41</span><span class="sc">:</span><span class="dv">80</span>]<span class="sc">+</span><span class="fu">rep</span>(<span class="dv">3</span>,<span class="dv">40</span>)</span></code></pre></div>
+<p>We use the approximation of <span class="math inline">\(L_0\)</span> penalty to perform the subgroup analysis:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>lam<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="fl">0.015</span>,<span class="fl">0.03</span>,<span class="fl">0.07</span>,<span class="fl">0.1</span>,<span class="fl">0.3</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>result<span class="ot">&lt;-</span><span class="fu">subgroup_l0</span>(y,X,lam)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>result<span class="sc">$</span>BIC</span></code></pre></div>
+<pre><code>## [1]  0.39502335 -0.03946644  2.25583024  2.25583024  2.25583024</code></pre>
+<p>From the result above, we can see that when <span class="math inline">\(\lambda=0.03\)</span>, the modified BIC reaches its minimum. And we can show the subgroups in the picture:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(result<span class="sc">$</span>mu[<span class="dv">1</span>,],<span class="at">type =</span> <span class="st">&quot;l&quot;</span>,<span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">4</span>,<span class="dv">4</span>),<span class="at">ylab =</span> <span class="fu">expression</span>(mu),<span class="at">xaxt=</span><span class="st">&quot;n&quot;</span>,<span class="at">xlab=</span><span class="fu">expression</span>(lambda))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>,<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>,lam)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">80</span>) {</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lines</span>(result<span class="sc">$</span>mu[i,])</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAMAAAAjXV6yAAAAaVBMVEUAAAAAADoAAGYAOjoAOpAAZrY6AAA6ADo6AGY6Ojo6OpA6ZrY6kNtmAABmAGZmZrZmkNtmtv+QOgCQkLaQkNuQ2/+2ZgC2Zma2kJC2///bkDrbkGbbtmbb////tmb/25D//7b//9v///8JsWuvAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAHL0lEQVR4nO3dfZ+iNhQFYKZ1pi+rbdd2bJd2EPn+H7JKcHwjnCTk5l7cc/7Y+emwN/iYAEJGqo6ZTKW9AtZDIBACgRAIhEAgBAIhEAiBQAgEQiAQAoEQCIRAIAQCIRAIgUAIBEIgEAKBEAiEQCAEAiEQCIFACARCIBACgRAIhEAgBAIhEAiBQAgEQiAQAoEQCIRAIAQCIRAIgUAIBEIgEAKBEAiEQCAEAiEQCIFACARCIBACgRAIhEAgBAIhEAiBQAgEQiAQAoEQCIRAIAQCIRAIgUAIBEIgEAKBEAiEQCAEAiEQCIFACARCIBACgRAIhEAgmYGqxUQSaP/2FZZza2C3f4oAtZvLG/DDN1SuJwp/pwpHpgc11fr0I6QH9Q8MEwkNsXaz+hgD8g1tu+NMbBu0e3kP7kGd4U4kt5Guq3UE0JkothXxCO7F9m8/xgA5InOdSHI3f9hWUUADUXxDkhE9DkoodySy1YmsAfW/sSRkD8hYJzII5IjyNpcek0DugDJvg6kxCtQT5W0xMbpAkx3FBpE+kP+si4lxpj/Eps5OGRDSB/p8ZtRJncjeELt/TlnICtDUSWFVIjtD7PM3c86c54+9HnS3XKV8nsheD7pa5opLTcgq0ENf0hpmFoE8Gx0dIWtAU1tkFSEhoPr4OvvTrTW+cHh5Du2uNIRkgOqX967dvHbhQGH7cgUhEaDDdt3/u/oIAoo40CkvJALUbtzVjN3q4w7o4XAn9iiwuJBgDzpm9zrdgxL23aV390LboIGl3QTM7ohNWSGxvZgbZIdtfqCyQtaOg+T/s1RbloBKCi0TqKDQQoHKCS0VqNjufrFApTrRgoHKCC0ZqIjQooFKCC0bqIDQwoHkhZYOJL67XzyQdCd6AiBZoWcAEhV6CiBJoecAEhRKA2o361LtKtWLL3y7YPvb+JnU/O0GFxQiigU6/7Xl6/TSh61bzHNGWuQdlxFK7EH/fEwuXFfDEGwqz1iUeDUiQolA+y9Ty35eFztSrcYpZV6MwNw0kW3Q+crqMQ24sjrSUGBC13tmtUSgxtMxXIJ70Jy3PBQyPSOve2p93I+rP4n3boAv1w3LboMsDTGUs6O3oz37Rrpcu6olY6paB7JyoFi8XaV68YVtA1n7sFqwXYVqaaUtA/GEWbla6cXtAvGk/XQhXvYpUmd+AyJA5T4pybcg04NmDpDvYfLCHKICPvpAM4hK+FgASiUq4mMDKKX69zaJM/b1FuKxAxRJVMzHEFAMUTkfU0DBRAV9jAGFEZX0MQcU0FBRn9JAIderpjvRc/xJ5sxyOa4E54pJID9RcR+rQB6i8j52gUaPJfOuQ1AMAz10Ig0f00B3RCo+xoGuiPgFS94lK4Hmw6N80j5oxpPqtyfbA/LPhlPJMoDytp2wojkXTCjnRam0v4dTG+i6gzz0lsrEfTb0e9DoMBqeUOfRBvLttc6/zdtmUvR70P0vLoeGeVtMjCmg6w5lovt0loBuRpsVHmGg8Ntn3W6L7PAIAcXe4/AWxBKPVA8Kv8fh427MFI/YEPPd4/Cu3GNnsdV9OsFtUOQ9DodnrfFIbqRj73Fokkd0LzZ2j8OJD+gmeWR38zH3ODTKIw3k/34GCxcsgmICyGz36UwAWeZRBFpMlIDiigYup7JY4uJ5ixIoz3IEsrhY4uJ5ixIoz3IEsrhY4uJ5ixIoz3LPB/RMIRAIgUAIBEIgEAKBEAiEQCAEAiEQCIFACARCIJAMQE1VvbyPPNj/fJpk5WZdgW86DynZDNdrvJe9I0rW1w+mMx+oOTbVnJu7etBu+llo+58C1ySgZDfcaXruWp7uF9sECs0GclfJdq/3D5phml4z8fXLkSU7/024o0r2N384bMOoZwO5yULDil8eNNXa0dTxb7mnZP8g8b4WN1X6lAPqh9DQT24euB+7X47bjbiX5S+5S+xAt1X61KWGmBvLw4i+fXBaHTercRcl5C2ZfmOUm5JdvwEILCUNNCwU9c57S4ZuWEHJPoft5Pf3f0Z8iLmF/LMaY0ruwl4TKukSqC21kb5dnbh9va/kjFsPPW6kQ980sd38AORWI26I+UrG9UN/yah1kjtQPA+L00rFbaR9JdM3QXclT0MVz3JyyfBRYzhudwcWVwfx511zwseD8ZKpR4mPJSPWiR9WQQgEQiAQAoEQCIRAIAQCIRAIgUAIBEIgEAKBEAiEQCAEAiEQCIFACARCIBACgRAIhEAgBAIhEAiBQAgEQiAQAoFYB9rFTrHOHeNA+z+6f9PnvOSIcaBj2r9Um7cPtP+i2rx9oPSZm1liHmj/9uuMeWXzYx6oXv2XPHUzR6wDtZuvultp60D16uPwp+YKGAfq547//a39XW0NjAPVbjL6jAnSc2McSD8EAiEQCIFACARCIBACgRAIhEAgBAIhEAiBQAgEQiAQAoEQCIRAIAQCIRAIgUAIBEIgEAKBEAjkfxibDOuPpbuwAAAAAElFTkSuQmCC" /><!-- --></p>
+<p>From the picture, when <span class="math inline">\(\lambda=0.03\)</span>, the data is divided to two subgroups as we set at the first.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
